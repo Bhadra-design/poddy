@@ -5,14 +5,14 @@ export default defineSchema({
   podcasts: defineTable({
     audioStorageId: v.optional(v.id("_storage")),
     user: v.id("users"),
-    podcastTile: v.string(),
+    podcastTitle: v.string(),
     podcastDescription: v.string(),
     audioURL: v.optional(v.string()),
-    imageURL: v.optional(v.string()),
+    imageUrl: v.optional(v.string()),
     imageStorageId: v.optional(v.id("_storage")),
     author: v.string(),
     authorId: v.string(),
-    authorImageURL: v.string(),
+    authorImageUrl: v.string(),
     voicePrompt: v.string(),
     imagePrompt: v.string(),
     voiceType: v.string(),
@@ -20,12 +20,12 @@ export default defineSchema({
     views: v.number(),
   })
     .searchIndex("search_author", { searchField: "author" })
-    .searchIndex("search_title", { searchField: "podcastTile" })
+    .searchIndex("search_title", { searchField: "podcastTitle" })
     .searchIndex("search_body", { searchField: "podcastDescription" }),
 
   users: defineTable({
     email: v.string(),
-    imageURL: v.string(),
+    imageUrl: v.string(),
     clerkId: v.string(),
     name: v.string(),
   }),
