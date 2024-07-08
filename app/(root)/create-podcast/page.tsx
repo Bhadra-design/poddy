@@ -30,6 +30,7 @@ import { Textarea } from "@/components/ui/textarea";
 import GenerateThumbnail from "@/components/GenerateThumbnail";
 import GeneratePodcast from "@/components/GeneratePodcast";
 import Loader from "@/components/Loader";
+import { Id } from "@/convex/_generated/dataModel";
 
 const voiceCategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"];
 
@@ -43,7 +44,8 @@ const CreatePodcast = () => {
   const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(
     null
   );
-  const [AudioScheduledSourceNode, setAudioScheduledSourceNode] = useState('')
+
+  const [audioUrl, setAudioUrl] = useState('')
   const [audioDuration, setAudioDuration] = useState(0)
   const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(
     null
@@ -85,7 +87,7 @@ const CreatePodcast = () => {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="input-class focus-visible:ring-orange-1 outline-none border-none"
+                      className="input-class focus-visible:ring-offset-orange-1 outline-none border-none"
                       placeholder="Podcast Title"
                       {...field}
                     />
@@ -110,7 +112,7 @@ const CreatePodcast = () => {
                     className="placeholder:text-gray-1"
                   />
                 </SelectTrigger>
-                <SelectContent className="text-16 border-none bg-black-1 font-bold text-white-1 focus:ring-orange-1">
+                <SelectContent className="text-16 border-none bg-black-1 font-bold text-white-1 focus-visible:ring-offset-orange-1">
                   {voiceCategories.map((category) => (
                     <SelectItem
                       key={category}
@@ -140,7 +142,7 @@ const CreatePodcast = () => {
                   </FormLabel>
                   <FormControl>
                     <Textarea
-                      className="input-class focus-visible:ring-orange-1 outline-none border-none"
+                      className="input-class focus-visible:ring-offset-orange-1 outline-none border-none"
                       placeholder="Write about your podcast..."
                       {...field}
                     />
@@ -152,23 +154,29 @@ const CreatePodcast = () => {
             />
           </div>
           <div className="flex flex-col pt-10">
-            <GeneratePodcast />
+            <GeneratePodcast 
+            setAudioStorageId={setAudioStorageId}
+            setAudio={setAudioUrl}
+            voiceType={voiceType!}
+            audio={audioUrl}
+            voicePrompt={voicePrompt}
+            setVoicePrompt={setVoicePrompt}
+            setAudioDuration={setAudioDuration}
+            />
+
             <GenerateThumbnail />
 
             <div className="mt-10 w-full">
-              <Button
-                type="submit"
-                className="text-16 w-full bg-orange-1 py-4 font-extrabold text-white-1 transition-all duration-500 hover:bg-black-1"
-              >
-                {isLoading ? (
-                  <div className="flex gap-2 justify-center items-center">
-                    <Loader />
-                    Submtting...
-                  </div>
-                ) : (
-                  <>Submit & Publish</>
-                )}
-              </Button>
+            <Button type="submit" className="text-16 w-full bg-orange-1 py-4 font-extrabold text-white-1 transition-all duration-500 hover:bg-black-1">
+                  {isLoading ? (
+                    <>
+                      Submitting
+                      <Loader />
+                    </>
+                  ) : (
+                    'Submit & Publish Podcast'
+                  )}
+                </Button>
             </div>
           </div>
         </form>
